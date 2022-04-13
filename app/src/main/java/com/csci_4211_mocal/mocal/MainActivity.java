@@ -62,12 +62,12 @@ public class MainActivity extends AppCompatActivity implements CalendarAdapter.I
         LocalDate first = selectedDate.withDayOfMonth(1);
         int weekDay = first.getDayOfWeek().getValue();
 
-        for (int i = 1; i <= 42; i++) {
-            if (i < weekDay || i > numDays + weekDay) {
+        for (int i = 0; i < 42; i++) {
+            if (i < weekDay || i >= numDays + weekDay) {
                 days.add("");
             }
             else {
-                days.add(String.valueOf(i - weekDay));
+                days.add(String.valueOf(i - weekDay + 1));
             }
         }
         return days;
