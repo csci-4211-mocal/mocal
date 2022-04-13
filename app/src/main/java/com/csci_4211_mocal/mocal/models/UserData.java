@@ -23,7 +23,7 @@ public class UserData {
 
         for (int i = 0; i < events.size(); i++) {
             Event current = events.get(i);
-            if (current == event) {
+            if (current.getId() == event.getId()) {
                 events.remove(i);
                 result = true;
             }

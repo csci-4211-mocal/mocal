@@ -1,16 +1,23 @@
 package com.csci_4211_mocal.mocal.models;
 
 import java.util.Date;
+import java.util.UUID;
 
 public class Event {
+    private final UUID id;
     private String title;
     private String description;
     private Date timestamp;
 
     public Event(String title, String description, Date timestamp) {
+        id = UUID.randomUUID();
         this.title = title;
         this.description = description;
         this.timestamp = timestamp;
+    }
+
+    public UUID getId() {
+        return this.id;
     }
 
     public String getTitle() {
