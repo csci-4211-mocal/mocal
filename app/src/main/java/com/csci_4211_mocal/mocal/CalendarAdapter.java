@@ -9,16 +9,19 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.time.LocalDate;
+import java.time.Month;
 import java.util.ArrayList;
 import java.util.Date;
 
 public class CalendarAdapter extends RecyclerView.Adapter<CalendarView> {
 
     private final ArrayList<String> days;
+    private final Month month;
     private final ItemListener itemListener;
 
-    public CalendarAdapter(ArrayList<String> days, ItemListener itemListener) {
+    public CalendarAdapter(ArrayList<String> days, Month month, ItemListener itemListener) {
         this.days = days;
+        this.month = month;
         this.itemListener = itemListener;
     }
 
@@ -36,8 +39,9 @@ public class CalendarAdapter extends RecyclerView.Adapter<CalendarView> {
         holder.day.setText(days.get(position));
 
         LocalDate now = LocalDate.now();
-        if (Integer.toString(now.getDayOfMonth()) != days.get(position)) {
-            holder.day.setTextColor(Color.parseColor("#bbbbbb"));
+        if (Integer.toString(now.getDayOfMonth()) == days.get(position)
+            && now.getMonth() == month) {
+            holder.day.setTextColor(Color.parseColor("#000000"));
         }
     }
 
