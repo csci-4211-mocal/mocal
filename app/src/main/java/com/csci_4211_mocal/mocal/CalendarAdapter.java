@@ -1,11 +1,8 @@
 package com.csci_4211_mocal.mocal;
 
-<<<<<<< Updated upstream
 import android.graphics.Color;
-=======
 import android.media.Image;
 import android.provider.ContactsContract;
->>>>>>> Stashed changes
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -22,13 +19,15 @@ import java.util.Date;
 public class CalendarAdapter extends RecyclerView.Adapter<CalendarView> {
 
     private final ArrayList<String> days;
+    private ArrayList<String> forecasts;
     private final Month month;
     private final ItemListener itemListener;
     private ImageView imageView;
 
-    public CalendarAdapter(ArrayList<String> days, Month month, ItemListener itemListener) {
+    public CalendarAdapter(ArrayList<String> days, Month month, ArrayList<String> forecasts, ItemListener itemListener) {
         this.days = days;
         this.month = month;
+        this.forecasts = forecasts;
         this.itemListener = itemListener;
     }
 
@@ -54,6 +53,10 @@ public class CalendarAdapter extends RecyclerView.Adapter<CalendarView> {
 
     @Override public int getItemCount() {
         return days.size();
+    }
+
+    public void setForecasts(ArrayList<String> forecasts) {
+        this.forecasts = forecasts;
     }
 
     public interface ItemListener {
