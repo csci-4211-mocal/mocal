@@ -10,8 +10,7 @@ import android.widget.ImageView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.squareup.picasso.NetworkPolicy;
-import com.squareup.picasso.Picasso;
+import com.csci_4211_mocal.mocal.models.UserData;
 
 import java.time.LocalDate;
 import java.time.Month;
@@ -19,6 +18,7 @@ import java.util.ArrayList;
 
 public class CalendarAdapter extends RecyclerView.Adapter<DayCell> {
 
+    private UserData userData;
     private Context context;
     private final ArrayList<String> days;
     private ArrayList<String> forecasts;
@@ -26,7 +26,8 @@ public class CalendarAdapter extends RecyclerView.Adapter<DayCell> {
     private final ItemListener itemListener;
     private ImageView imageView;
 
-    public CalendarAdapter(Context context, ArrayList<String> days, Month month, ArrayList<String> forecasts, ItemListener itemListener) {
+    public CalendarAdapter(UserData userData, Context context, ArrayList<String> days, Month month, ArrayList<String> forecasts, ItemListener itemListener) {
+        this.userData = userData;
         this.context = context;
         this.days = days;
         this.month = month;
@@ -39,7 +40,7 @@ public class CalendarAdapter extends RecyclerView.Adapter<DayCell> {
         View view = layoutInflater.inflate(R.layout.calendar_day_cell, parent, false);
 
         ViewGroup.LayoutParams layoutParams = view.getLayoutParams();
-        layoutParams.height = (int) (parent.getHeight() * 1.0/8.0);
+        layoutParams.height = (int) (parent.getHeight() * 1.0/6.0);
 
         return new DayCell(view, itemListener);
     }
@@ -51,6 +52,7 @@ public class CalendarAdapter extends RecyclerView.Adapter<DayCell> {
             if (Integer.toString(now.getDayOfMonth()) == days.get(position)
                     && now.getMonth() == month) {
                 holder.day.setTextColor(Color.parseColor("#000000"));
+                holder.image.setBackgroundResource(R.drawable.cell_background_selected);
             }
 
             if (!forecasts.isEmpty()) {

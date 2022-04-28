@@ -11,7 +11,9 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.csci_4211_mocal.mocal.models.UserData;
 import com.csci_4211_mocal.mocal.services.Conversion;
+import com.csci_4211_mocal.mocal.services.DataManager;
 import com.csci_4211_mocal.mocal.services.GPS;
 import com.csci_4211_mocal.mocal.services.Network;
 
@@ -25,6 +27,8 @@ import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity implements CalendarAdapter.ItemListener {
+    private DataManager dataManager;
+    private UserData userData;
     private TextView textViewMonthYear;
     private RecyclerView recyclerViewCalender;
     private LocalDate selectedDate;
@@ -47,6 +51,13 @@ public class MainActivity extends AppCompatActivity implements CalendarAdapter.I
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+//        dataManager = new DataManager(this);
+//        userData = dataManager.load();
+//        if (userData == null) {
+//            userData = new UserData(new ArrayList<>());
+//            dataManager.update(userData);
+//        }
 
         recyclerViewCalender = findViewById(R.id.recyclerViewCalendar);
         textViewMonthYear = findViewById(R.id.textViewMonthYear);
@@ -77,7 +88,7 @@ public class MainActivity extends AppCompatActivity implements CalendarAdapter.I
     private void layoutMonth() {
         textViewMonthYear.setText(getMonthYear(selectedDate));
         ArrayList<String> days = getDays(selectedDate);
-        CalendarAdapter calendarAdapter = new CalendarAdapter(this, days, selectedDate.getMonth(), forecasts, this);
+        CalendarAdapter calendarAdapter = new CalendarAdapter(userData, this, days, selectedDate.getMonth(), forecasts, this);
 
         RecyclerView.LayoutManager layoutManager = new GridLayoutManager(getApplicationContext(), 7);
         recyclerViewCalender.setLayoutManager(layoutManager);

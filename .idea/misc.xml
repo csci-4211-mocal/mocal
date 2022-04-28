@@ -5,6 +5,14 @@
       <map>
         <entry key="..\:/Users/13036/AndroidStudioProjects/mocal/app/src/main/res/layout/activity_main.xml" value="0.15172101449275363" />
         <entry key="..\:/Users/13036/AndroidStudioProjects/mocal/app/src/main/res/layout/calendar_day_cell.xml" value="0.15172101449275363" />
+        <entry key="app/src/main/res/drawable/cell_background.xml" value="0.4285" />
+        <entry key="app/src/main/res/drawable/cell_background_selected.xml" value="0.4285" />
+        <entry key="app/src/main/res/drawable/cell_border.xml" value="0.4285" />
+        <entry key="app/src/main/res/drawable/cell_border_selected.xml" value="0.4285" />
+        <entry key="app/src/main/res/drawable/cell_status.xml" value="0.4285" />
+        <entry key="app/src/main/res/drawable/cell_status_high.xml" value="0.4285" />
+        <entry key="app/src/main/res/drawable/cell_status_med.xml" value="0.4285" />
+        <entry key="app/src/main/res/drawable/cell_text_background.xml" value="0.4285" />
         <entry key="app/src/main/res/layout/activity_main.xml" value="0.4968833158081426" />
         <entry key="app/src/main/res/layout/calendar_day_cell.xml" value="0.32366638183593743" />
       </map>
