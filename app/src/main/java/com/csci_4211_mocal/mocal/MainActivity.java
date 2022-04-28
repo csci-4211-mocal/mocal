@@ -11,6 +11,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.csci_4211_mocal.mocal.services.Conversion;
 import com.csci_4211_mocal.mocal.services.GPS;
 import com.csci_4211_mocal.mocal.services.Network;
 
@@ -33,7 +34,8 @@ public class MainActivity extends AppCompatActivity implements CalendarAdapter.I
         @Override
         public void onWeatherResponse(String res) {
             try {
-                forecasts = parseWeather(res);
+                forecasts = Conversion.parseWeather(res);
+                layoutMonth();
             }
             catch(JSONException e) {
                 Log.i("Weather", e.toString());
@@ -75,7 +77,7 @@ public class MainActivity extends AppCompatActivity implements CalendarAdapter.I
     private void layoutMonth() {
         textViewMonthYear.setText(getMonthYear(selectedDate));
         ArrayList<String> days = getDays(selectedDate);
-        CalendarAdapter calendarAdapter = new CalendarAdapter(days, selectedDate.getMonth(), forecasts, this);
+        CalendarAdapter calendarAdapter = new CalendarAdapter(this, days, selectedDate.getMonth(), forecasts, this);
 
         RecyclerView.LayoutManager layoutManager = new GridLayoutManager(getApplicationContext(), 7);
         recyclerViewCalender.setLayoutManager(layoutManager);
@@ -113,25 +115,5 @@ public class MainActivity extends AppCompatActivity implements CalendarAdapter.I
         } else {
 
         }
-    }
-
-
-
-// -----------------------------------
-//    Auxiliary
-// -----------------------------------
-
-    ArrayList<String> parseWeather(String response) throws JSONException {
-        ArrayList<String> forecastIcons = new ArrayList<>();
-        JSONObject jsonObject = new JSONObject(response);
-        JSONArray forecasts = jsonObject.getJSONArray("list");
-        for (int i = 0; i < forecasts.length(); i+=8) {
-            JSONObject day = forecasts.getJSONObject(i);
-            JSONObject forecastData = day.getJSONArray("weather").getJSONObject(0);
-            String forecast = forecastData.getString("icon");
-            forecastIcons.add(forecast);
-        }
-
-        return forecastIcons;
     }
 }

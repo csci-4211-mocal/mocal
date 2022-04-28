@@ -9,12 +9,12 @@ import com.google.gson.Gson;
 
 import java.util.ArrayList;
 
-public class Persist {
+public class DataManager {
     private Context context;
     private SharedPreferences sharedPreferences;
     private Gson gson;
 
-    public Persist(Context context) {
+    public DataManager(Context context) {
         this.context = context;
         sharedPreferences = context.getSharedPreferences(String.valueOf(R.string.shared_prefs), Context.MODE_PRIVATE);
     }
