@@ -22,7 +22,6 @@ public class GPS extends Service implements LocationListener {
     String info;
 
     public GPS(Context context) {
-        System.out.println("makin it");
         this.context = context;
     }
 

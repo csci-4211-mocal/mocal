@@ -35,7 +35,6 @@ public class DayCell extends RecyclerView.ViewHolder implements View.OnClickList
     }
 
     public void loadImage() {
-        System.out.println(imageStr);
         if (imageStr != null) {
             switch (imageStr) {
                 case "01d":

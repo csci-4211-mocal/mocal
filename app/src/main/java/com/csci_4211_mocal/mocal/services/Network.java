@@ -22,7 +22,6 @@ public class Network {
     }
 
     public void getWeather (double lat, double lon, WeatherCallback callback) {
-        System.out.println("Initiating network request...");
         String endpoint = "https://api.openweathermap.org/data/2.5/forecast";
         String location = "?lat=" + lat + "&lon=" + lon + "&apikey=bc5175d04ffa12b84dbe6434edd06817";
 

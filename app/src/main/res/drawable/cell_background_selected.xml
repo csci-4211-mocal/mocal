@@ -3,11 +3,14 @@
     android:shape="rectangle" >
 
     <stroke
-        android:width="0.5dp"
-        android:color="#AAAAAA" />
+        android:width="1.0dp"
+        android:color="@color/primary" />
 
     <gradient
-        android:angle="90"
-        android:startColor="#dddddd"
+        android:startColor="@color/primary"
+        android:type="radial"
+        android:gradientRadius="80%p"
+        android:centerX="0.5"
+        android:centerY="1.3"
         />
 </shape>

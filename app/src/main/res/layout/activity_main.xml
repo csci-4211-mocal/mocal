@@ -32,10 +32,11 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="2"
+            android:fontFamily="@font/advent_pro"
             android:text="Month Year"
             android:textAlignment="center"
             android:textColor="@color/black"
-            android:textSize="20sp" />
+            android:textSize="24sp" />
 
         <Button
             android:layout_width="0dp"
@@ -61,6 +62,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
+            android:fontFamily="@font/allerta"
             android:text="SUN"
             android:textAlignment="center"
             android:textColor="@color/primary"
@@ -70,6 +72,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
+            android:fontFamily="@font/allerta"
             android:text="MON"
             android:textAlignment="center"
             android:textColor="@color/primary"
@@ -79,6 +82,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
+            android:fontFamily="@font/allerta"
             android:text="TUE"
             android:textAlignment="center"
             android:textColor="@color/primary"
@@ -88,6 +92,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
+            android:fontFamily="@font/allerta"
             android:text="WED"
             android:textAlignment="center"
             android:textColor="@color/primary"
@@ -97,6 +102,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
+            android:fontFamily="@font/allerta"
             android:text="THUR"
             android:textAlignment="center"
             android:textColor="@color/primary"
@@ -106,6 +112,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
+            android:fontFamily="@font/allerta"
             android:text="FRI"
             android:textAlignment="center"
             android:textColor="@color/primary"
@@ -130,6 +137,30 @@
         android:layout_height="400dp"
         app:layout_constraintBottom_toBottomOf="parent"
         android:layout_marginBottom="30dp"/>
+
+    <TextView
+        android:id="@+id/textViewGreeting"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="32dp"
+        android:fontFamily="@font/advent_pro"
+        android:text="Greetings,"
+        android:textSize="34sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/textViewUsername"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="32dp"
+        android:layout_marginTop="8dp"
+        android:fontFamily="@font/advent_pro"
+        android:text="Username"
+        android:textSize="34sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textViewGreeting" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
 

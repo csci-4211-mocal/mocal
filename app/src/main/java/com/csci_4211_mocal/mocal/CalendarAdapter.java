@@ -68,7 +68,6 @@ public class CalendarAdapter extends RecyclerView.Adapter<DayCell> {
                         int daysLastMonth = lastMonth.maxLength();
                         String day = Integer.toString((now.getDayOfMonth() + i) % daysLastMonth);
                         if (days.get(position) == day && Integer.parseInt(day) <= forecasts.size()) {
-                            System.out.println(days.get(position));
                             holder.imageStr = forecasts.get(i);
                             holder.loadImage();
                         }

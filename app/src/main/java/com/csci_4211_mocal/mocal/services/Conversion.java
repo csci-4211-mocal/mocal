@@ -42,8 +42,6 @@ public class Conversion {
         else
             initial = -4;
 
-        System.out.println(hour);
-
         for (int i = 0, j = 0; i < forecasts.length() && j < 5; i += 8, j++) {
             JSONObject day = forecasts.getJSONObject(i);
             JSONObject forecastData = day.getJSONArray("weather").getJSONObject(0);
