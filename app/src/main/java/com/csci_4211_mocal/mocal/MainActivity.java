@@ -1,38 +1,42 @@
 package com.csci_4211_mocal.mocal;
 
+import android.content.Intent;
 import android.location.Location;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
-import android.widget.ImageView;
 import android.widget.TextView;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.csci_4211_mocal.mocal.adapters.CalendarAdapter;
+import com.csci_4211_mocal.mocal.dialogs.LoginDialog;
+import com.csci_4211_mocal.mocal.dialogs.NewEventDialog;
+import com.csci_4211_mocal.mocal.models.Event;
 import com.csci_4211_mocal.mocal.models.UserData;
 import com.csci_4211_mocal.mocal.services.Conversion;
 import com.csci_4211_mocal.mocal.services.DataManager;
 import com.csci_4211_mocal.mocal.services.GPS;
 import com.csci_4211_mocal.mocal.services.Network;
 
-import org.json.JSONArray;
 import org.json.JSONException;
-import org.json.JSONObject;
 
 import java.time.LocalDate;
 import java.time.YearMonth;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 
-public class MainActivity extends AppCompatActivity implements CalendarAdapter.ItemListener {
+public class MainActivity extends AppCompatActivity implements CalendarAdapter.ItemListener, LoginDialog.LoginDialogListener {
     private DataManager dataManager;
     private UserData userData;
     private TextView textViewMonthYear;
     private RecyclerView recyclerViewCalender;
     private LocalDate selectedDate;
     private ArrayList<String> forecasts;
+    private ArrayList<Event> preloadedEvents;
 
     Network.WeatherCallback weatherCallback = new Network.WeatherCallback() {
         @Override
@@ -52,12 +56,29 @@ public class MainActivity extends AppCompatActivity implements CalendarAdapter.I
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-//        dataManager = new DataManager(this);
-//        userData = dataManager.load();
-//        if (userData == null) {
-//            userData = new UserData(new ArrayList<>());
-//            dataManager.update(userData);
-//        }
+        Intent intent = getIntent();
+        Bundle extras = intent.getExtras();
+        if (extras != null) {
+            preloadedEvents = extras.getParcelableArrayList("events");
+        }
+
+        dataManager = new DataManager(this);
+        userData = dataManager.load();
+        if (userData == null) {
+            if (preloadedEvents == null) {
+                Log.e("Events error", "Something with preloaded events went horribly wrong");
+            }
+//            LoginDialog loginDialog = new LoginDialog(false, null);
+//            loginDialog.show(getSupportFragmentManager(), "");
+            ArrayList<Event> events = new ArrayList<Event>();
+            UserData userData = new UserData("", events);
+            dataManager.update(userData);
+        }
+        else if (preloadedEvents != null) {
+            userData.updateEvents(preloadedEvents);
+            preloadedEvents = null;
+            dataManager.update(userData);
+        }
 
         recyclerViewCalender = findViewById(R.id.recyclerViewCalendar);
         textViewMonthYear = findViewById(R.id.textViewMonthYear);
@@ -124,7 +145,21 @@ public class MainActivity extends AppCompatActivity implements CalendarAdapter.I
         if (day.equals("")) {
 
         } else {
+            Intent intent = new Intent(this, EventListActivity.class);
+            intent.putExtra("selected_day", Integer.parseInt(day));
+            intent.putExtra("selected_month", selectedDate.getMonthValue());
+            intent.putExtra("selected_year", selectedDate.getYear());
+            intent.putExtra("events", userData.getEvents());
+            startActivity(intent);
+        }
+    }
 
+    @Override
+    public void confirmLogin(String username, String password) {
+        if (username.isEmpty() || password.isEmpty()) {
+            LoginDialog loginDialog = new LoginDialog(true, "Invalid input(s)");
+            loginDialog.show(getSupportFragmentManager(), "");
+            return;
         }
     }
 }

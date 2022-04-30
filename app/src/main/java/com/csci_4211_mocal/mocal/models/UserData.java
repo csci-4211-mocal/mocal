@@ -1,34 +1,32 @@
 package com.csci_4211_mocal.mocal.models;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import java.util.ArrayList;
 
 public class UserData {
+    private String token;
     private ArrayList<Event> events;
 
-    public UserData(ArrayList<Event> events) {
+    public UserData(String token, ArrayList<Event> events) {
+        this.token = token;
         this.events = events;
+    }
+
+    public String getToken() {
+        return token;
     }
 
     public ArrayList<Event> getEvents() {
         return events;
     }
 
-    public boolean addEvent(Event event) {
-        boolean result = events.add(event);
-        return result;
+    public void setToken(String token) {
+        this.token = token;
     }
 
-    public boolean deleteEvent(Event event) {
-        boolean result = false;
-
-        for (int i = 0; i < events.size(); i++) {
-            Event current = events.get(i);
-            if (current.getId() == event.getId()) {
-                events.remove(i);
-                result = true;
-            }
-        }
-
-        return result;
+    public void updateEvents(ArrayList<Event> events) {
+        this.events = events;
     }
 }

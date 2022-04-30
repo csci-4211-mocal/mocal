@@ -17,6 +17,7 @@ public class DataManager {
     public DataManager(Context context) {
         this.context = context;
         sharedPreferences = context.getSharedPreferences(String.valueOf(R.string.shared_prefs), Context.MODE_PRIVATE);
+        gson = new Gson();
     }
 
     public UserData load() {

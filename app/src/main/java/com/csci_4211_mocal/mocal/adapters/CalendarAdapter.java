@@ -1,4 +1,4 @@
-package com.csci_4211_mocal.mocal;
+package com.csci_4211_mocal.mocal.adapters;
 
 import android.content.Context;
 import android.graphics.Color;
@@ -10,7 +10,9 @@ import android.widget.ImageView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.csci_4211_mocal.mocal.R;
 import com.csci_4211_mocal.mocal.models.UserData;
+import com.csci_4211_mocal.mocal.viewmodels.DayCell;
 
 import java.time.LocalDate;
 import java.time.Month;

@@ -1,5 +1,7 @@
 package com.csci_4211_mocal.mocal.services;
 
+import com.csci_4211_mocal.mocal.models.AccountInfo;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -55,4 +57,9 @@ public class Conversion {
 
         return forecastIcons;
     }
+
+//    public static AccountInfo parseLoginResponse(String response) throws JSONException {
+//        JSONObject jsonObject = new JSONObject(response);
+//
+//    }
 }

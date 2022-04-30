@@ -1,24 +1,14 @@
-package com.csci_4211_mocal.mocal;
+package com.csci_4211_mocal.mocal.viewmodels;
 
-import android.graphics.drawable.Drawable;
-import android.util.Log;
 import android.view.View;
-import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.android.volley.Request;
-import com.android.volley.RequestQueue;
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
-import com.android.volley.toolbox.StringRequest;
-import com.android.volley.toolbox.Volley;
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.squareup.picasso.NetworkPolicy;
-import com.squareup.picasso.Picasso;
+import com.csci_4211_mocal.mocal.adapters.CalendarAdapter;
+import com.csci_4211_mocal.mocal.R;
 
 public class DayCell extends RecyclerView.ViewHolder implements View.OnClickListener {
     public final TextView day;
