@@ -28,13 +28,15 @@ public class NewEventDialog extends DialogFragment {
     private EditText editTextDescription;
     private TextView textViewError;
     private NewEventDialogListener listener;
+    private Date date;
 
     private boolean error;
     private String errorString;
 
-    public NewEventDialog(boolean error, String errorString) {
+    public NewEventDialog(boolean error, String errorString, Date date) {
         this.error = error;
         this.errorString = errorString != null ? errorString : "";
+        this.date = date;
     }
 
     @NonNull
@@ -51,11 +53,11 @@ public class NewEventDialog extends DialogFragment {
                     public void onClick(DialogInterface dialogInterface, int i) {
                         int hour = timePicker.getHour();
                         int minute = timePicker.getMinute();
-                        LocalDate localDate = LocalDate.now();
-                        int year = localDate.getYear();
-                        int month = localDate.getMonthValue();
-                        int day = localDate.getDayOfMonth();
                         Calendar calendar = Calendar.getInstance();
+                        calendar.setTime(date);
+                        int year = calendar.get(Calendar.YEAR);
+                        int month = calendar.get(Calendar.MONTH) + 1;
+                        int day = calendar.get(Calendar.DAY_OF_MONTH);
                         calendar.set(year, month, day, hour, minute);
                         Date timestamp = calendar.getTime();
                         String title = editTextTitle.getText().toString();

@@ -1,6 +1,7 @@
 package com.csci_4211_mocal.mocal.services;
 
 import com.csci_4211_mocal.mocal.models.AccountInfo;
+import com.csci_4211_mocal.mocal.models.Event;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -12,6 +13,7 @@ import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Comparator;
 import java.util.Date;
 
 public class Conversion {
@@ -56,6 +58,35 @@ public class Conversion {
         }
 
         return forecastIcons;
+    }
+
+    public static ArrayList<Event> filterAndOrderEventsByDate(ArrayList<Event> events, Date date) {
+        ArrayList<Event> filtered = new ArrayList<>();
+        for (Event event : events) {
+            Calendar calendar = Calendar.getInstance();
+            calendar.setTime(event.getTimestamp());
+            int eventDay = calendar.get(Calendar.DAY_OF_MONTH);
+            int eventMonth = calendar.get(Calendar.MONTH);
+            int eventYear = calendar.get(Calendar.YEAR);
+
+            calendar.setTime(date);
+            int compareDay = calendar.get(Calendar.DAY_OF_MONTH);
+            int compareMonth = calendar.get(Calendar.MONTH) + 1;
+            int compareYear = calendar.get(Calendar.YEAR);
+
+            if (eventDay == compareDay && eventMonth == compareMonth && eventYear == compareYear) {
+                filtered.add(event);
+            }
+        }
+
+        filtered.sort(new Comparator<Event>() {
+            @Override
+            public int compare(Event a, Event b) {
+                return a.getTimestamp().compareTo(b.getTimestamp());
+            }
+        });
+
+        return filtered;
     }
 
 //    public static AccountInfo parseLoginResponse(String response) throws JSONException {

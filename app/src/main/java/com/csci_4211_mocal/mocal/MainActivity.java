@@ -28,6 +28,8 @@ import java.time.LocalDate;
 import java.time.YearMonth;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 
 public class MainActivity extends AppCompatActivity implements CalendarAdapter.ItemListener, LoginDialog.LoginDialogListener {
     private DataManager dataManager;
@@ -46,7 +48,7 @@ public class MainActivity extends AppCompatActivity implements CalendarAdapter.I
                 layoutMonth();
             }
             catch(JSONException e) {
-                Log.i("Weather", e.toString());
+                Log.e("Weather", e.toString());
             }
         }
     };
@@ -65,6 +67,8 @@ public class MainActivity extends AppCompatActivity implements CalendarAdapter.I
         dataManager = new DataManager(this);
         userData = dataManager.load();
         if (userData == null) {
+            System.out.println("User data is null");
+            Log.i("User Data", "User data is null");
             if (preloadedEvents == null) {
                 Log.e("Events error", "Something with preloaded events went horribly wrong");
             }
@@ -75,9 +79,15 @@ public class MainActivity extends AppCompatActivity implements CalendarAdapter.I
             dataManager.update(userData);
         }
         else if (preloadedEvents != null) {
+            System.out.println("User data preloaded");
+            Log.i("User Data", "User data found");
             userData.updateEvents(preloadedEvents);
             preloadedEvents = null;
             dataManager.update(userData);
+        }
+        else {
+            System.out.println("User data found");
+            userData = dataManager.load();
         }
 
         recyclerViewCalender = findViewById(R.id.recyclerViewCalendar);
@@ -110,7 +120,6 @@ public class MainActivity extends AppCompatActivity implements CalendarAdapter.I
         textViewMonthYear.setText(getMonthYear(selectedDate));
         ArrayList<String> days = getDays(selectedDate);
         CalendarAdapter calendarAdapter = new CalendarAdapter(userData, this, days, selectedDate.getMonth(), forecasts, this);
-
         RecyclerView.LayoutManager layoutManager = new GridLayoutManager(getApplicationContext(), 7);
         recyclerViewCalender.setLayoutManager(layoutManager);
         recyclerViewCalender.setAdapter(calendarAdapter);
