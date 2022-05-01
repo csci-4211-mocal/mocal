@@ -75,13 +75,16 @@ public class CalendarAdapter extends RecyclerView.Adapter<DayCell> {
                         holder.loadImage();
                     }
                 }
-                else if (month == now.getMonth().getValue() + 1) {
-                    Month lastMonth = Month.of(month - 1);
-                    int daysLastMonth = lastMonth.maxLength();
-                    String day = Integer.toString((now.getDayOfMonth() + i) % daysLastMonth);
-                    if (days.get(position) == day && Integer.parseInt(day) <= forecasts.size()) {
-                        holder.imageStr = forecasts.get(i);
-                        holder.loadImage();
+                else if (month == now.getMonthValue() + 1) {
+                    if (now.getDayOfMonth() + (forecasts.size() - 1) > Month.of(now.getMonthValue()).maxLength()) {
+                        Month lastMonth = Month.of(month - 1);
+                        int daysLastMonth = lastMonth.maxLength();
+                        String day = Integer.toString((now.getDayOfMonth() + i) % daysLastMonth);
+                        System.out.println("Day " + day);
+                        if (days.get(position) == day && Integer.parseInt(day) <= forecasts.size()) {
+                            holder.imageStr = forecasts.get(i);
+                            holder.loadImage();
+                        }
                     }
                 }
             }
@@ -107,7 +110,7 @@ public class CalendarAdapter extends RecyclerView.Adapter<DayCell> {
             }
         }
         catch(NumberFormatException e) {
-            Log.e("Conversion Error", "Error converting day " + days.get(position));
+            Log.e("Conversion Error", "Error converting day (don't worry)");
         }
     }
 
