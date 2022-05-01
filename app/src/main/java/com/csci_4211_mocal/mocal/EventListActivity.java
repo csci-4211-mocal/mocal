@@ -84,8 +84,8 @@ public class EventListActivity extends AppCompatActivity implements EventListAda
 
     @Override
     public void confirmNewEvent(String title, String description, Date timestamp) {
-        if (title.isEmpty() || description.isEmpty()) {
-            NewEventDialog newEventDialog = new NewEventDialog(true, "Invalid input(s)", selectedDate);
+        if (title.isEmpty()) {
+            NewEventDialog newEventDialog = new NewEventDialog(true, "Title field is required", selectedDate);
             newEventDialog.show(getSupportFragmentManager(), "");
             return;
         }
@@ -98,6 +98,10 @@ public class EventListActivity extends AppCompatActivity implements EventListAda
 
     @Override
     public void confirmEditEvent(Event event) {
+        if (event.getTitle().isEmpty()) {
+            EditEventDialog editEventDialog = new EditEventDialog(true, "Title field required", event);
+            editEventDialog.show(getSupportFragmentManager(), "");
+        }
         ArrayList<Event> updated = new ArrayList<>();
         for (Event e : events) {
             if (e.getId().equals(event.getId())) {
@@ -116,10 +120,8 @@ public class EventListActivity extends AppCompatActivity implements EventListAda
     public void confirmDeleteEvent(Event event) {
         ArrayList<Event> updated = new ArrayList<>();
         for (Event e : events) {
-            System.out.println("Comparing " + e.getId() + " with " + event.getId());
             if (!e.getId().equals(event.getId())) {
-                System.out.println("Keeping " + e.getId());
-                updated.add(event);
+                updated.add(e);
             }
         }
 

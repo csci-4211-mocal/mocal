@@ -102,6 +102,11 @@ public class MainActivity extends AppCompatActivity implements CalendarAdapter.I
             Network network = new Network(this);
             network.getWeather(location.getLatitude(), location.getLongitude(), weatherCallback);
         }
+
+        System.out.println("There are " + userData.getEvents().size() + " events...");
+        for (Event event : userData.getEvents()) {
+            System.out.println("Event: " + event.getId() + " / " + event.getTimestamp());
+        }
     }
 
     public void previousMonthClicked(View view) {
