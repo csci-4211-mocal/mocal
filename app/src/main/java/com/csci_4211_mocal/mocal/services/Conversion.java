@@ -71,7 +71,7 @@ public class Conversion {
 
             calendar.setTime(date);
             int compareDay = calendar.get(Calendar.DAY_OF_MONTH);
-            int compareMonth = calendar.get(Calendar.MONTH) + 1;
+            int compareMonth = calendar.get(Calendar.MONTH);
             int compareYear = calendar.get(Calendar.YEAR);
 
             if (eventDay == compareDay && eventMonth == compareMonth && eventYear == compareYear) {

@@ -12,6 +12,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.csci_4211_mocal.mocal.adapters.EventListAdapter;
+import com.csci_4211_mocal.mocal.dialogs.EditEventDialog;
 import com.csci_4211_mocal.mocal.dialogs.NewEventDialog;
 import com.csci_4211_mocal.mocal.models.Event;
 import com.csci_4211_mocal.mocal.models.UserData;
@@ -22,7 +23,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 
-public class EventListActivity extends AppCompatActivity implements EventListAdapter.ItemListener, NewEventDialog.NewEventDialogListener {
+public class EventListActivity extends AppCompatActivity implements EventListAdapter.ItemListener, NewEventDialog.NewEventDialogListener, EditEventDialog.EditEventDialogListener {
     private Date selectedDate;
     private Button backButton;
     private TextView textViewTitle;
@@ -96,7 +97,40 @@ public class EventListActivity extends AppCompatActivity implements EventListAda
     }
 
     @Override
-    public void itemClicked(int position, String index) {
+    public void confirmEditEvent(Event event) {
+        ArrayList<Event> updated = new ArrayList<>();
+        for (Event e : events) {
+            if (e.getId().equals(event.getId())) {
+                updated.add(event);
+            }
+            else {
+                updated.add(e);
+            }
+        }
 
+        events = updated;
+        layoutList();
+    }
+
+    @Override
+    public void confirmDeleteEvent(Event event) {
+        ArrayList<Event> updated = new ArrayList<>();
+        for (Event e : events) {
+            System.out.println("Comparing " + e.getId() + " with " + event.getId());
+            if (!e.getId().equals(event.getId())) {
+                System.out.println("Keeping " + e.getId());
+                updated.add(event);
+            }
+        }
+
+        events = updated;
+        layoutList();
+        layoutList();
+    }
+
+    @Override
+    public void itemClicked(int position, Event event) {
+        EditEventDialog dialog = new EditEventDialog(false, null, event);
+        dialog.show(getSupportFragmentManager(), "");
     }
 }

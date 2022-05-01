@@ -67,26 +67,24 @@ public class MainActivity extends AppCompatActivity implements CalendarAdapter.I
         dataManager = new DataManager(this);
         userData = dataManager.load();
         if (userData == null) {
-            System.out.println("User data is null");
             Log.i("User Data", "User data is null");
             if (preloadedEvents == null) {
                 Log.e("Events error", "Something with preloaded events went horribly wrong");
             }
-//            LoginDialog loginDialog = new LoginDialog(false, null);
-//            loginDialog.show(getSupportFragmentManager(), "");
+            LoginDialog loginDialog = new LoginDialog(false, null);
+            loginDialog.show(getSupportFragmentManager(), "");
             ArrayList<Event> events = new ArrayList<Event>();
             UserData userData = new UserData("", events);
             dataManager.update(userData);
         }
         else if (preloadedEvents != null) {
-            System.out.println("User data preloaded");
-            Log.i("User Data", "User data found");
+            Log.i("User Data", "User data preloaded");
             userData.updateEvents(preloadedEvents);
             preloadedEvents = null;
             dataManager.update(userData);
         }
         else {
-            System.out.println("User data found");
+            Log.i("User Data", "User data found");
             userData = dataManager.load();
         }
 

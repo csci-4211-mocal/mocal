@@ -47,6 +47,7 @@ public class EventListAdapter extends RecyclerView.Adapter<EventCell> {
             holder.textViewDescription.setText(event.getDescription());
             SimpleDateFormat format = new SimpleDateFormat("hh:mm a");
             holder.textViewTimestamp.setText(format.format(event.getTimestamp()));
+            holder.event = event;
         }
     }
 
@@ -56,6 +57,6 @@ public class EventListAdapter extends RecyclerView.Adapter<EventCell> {
     }
 
     public interface ItemListener {
-        void itemClicked(int position, String index);
+        void itemClicked(int position, Event event);
     }
 }
