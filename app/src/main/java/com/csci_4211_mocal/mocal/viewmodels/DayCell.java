@@ -14,12 +14,14 @@ public class DayCell extends RecyclerView.ViewHolder implements View.OnClickList
     public final TextView day;
     private final CalendarAdapter.ItemListener itemListener;
     public final ImageView image;
+    public final View statusView;
     public String imageStr;
 
     public DayCell(@NonNull View itemView, CalendarAdapter.ItemListener itemListener) {
         super(itemView);
         day = itemView.findViewById(R.id.cellDayText);
         image = itemView.findViewById(R.id.weatherIcon);
+        statusView = itemView.findViewById(R.id.viewStatus);
         this.itemListener = itemListener;
         itemView.setOnClickListener(this);
     }

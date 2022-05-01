@@ -32,6 +32,7 @@
         android:fontFamily="@font/advent_pro"/>
 
     <View
+        android:id="@+id/viewStatus"
         android:layout_width="10dp"
         android:layout_height="20dp"
         android:layout_marginEnd="2dp"

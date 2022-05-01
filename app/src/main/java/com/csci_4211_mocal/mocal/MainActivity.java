@@ -122,7 +122,7 @@ public class MainActivity extends AppCompatActivity implements CalendarAdapter.I
     private void layoutMonth() {
         textViewMonthYear.setText(getMonthYear(selectedDate));
         ArrayList<String> days = getDays(selectedDate);
-        CalendarAdapter calendarAdapter = new CalendarAdapter(userData, this, days, selectedDate.getMonth(), forecasts, this);
+        CalendarAdapter calendarAdapter = new CalendarAdapter(userData, this, days, selectedDate.getMonthValue(), selectedDate.getYear(), forecasts, this);
         RecyclerView.LayoutManager layoutManager = new GridLayoutManager(getApplicationContext(), 7);
         recyclerViewCalender.setLayoutManager(layoutManager);
         recyclerViewCalender.setAdapter(calendarAdapter);
