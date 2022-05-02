@@ -95,22 +95,24 @@ public class CalendarAdapter extends RecyclerView.Adapter<DayCell> {
             int day = Integer.parseInt(days.get(position));
             calendar.set(year, month - 1, day);
             Date date = calendar.getTime();
-            ArrayList<Event> filtered = Conversion.filterAndOrderEventsByDate(userData.getEvents(), date);
+            if (userData != null) {
+                ArrayList<Event> filtered = Conversion.filterAndOrderEventsByDate(userData.getEvents(), date);
 
-            if (filtered.size() > 0) {
-                if (filtered.size() <= 3) {
-                    holder.statusView.setBackgroundResource(R.drawable.cell_status_low);
-                }
-                else if (filtered.size() <= 6) {
-                    holder.statusView.setBackgroundResource(R.drawable.cell_status_med);
-                }
-                else {
-                    holder.statusView.setBackgroundResource(R.drawable.cell_status_high);
+                if (filtered.size() > 0) {
+                    if (filtered.size() <= 3) {
+                        holder.statusView.setBackgroundResource(R.drawable.cell_status_low);
+                    }
+                    else if (filtered.size() <= 6) {
+                        holder.statusView.setBackgroundResource(R.drawable.cell_status_med);
+                    }
+                    else {
+                        holder.statusView.setBackgroundResource(R.drawable.cell_status_high);
+                    }
                 }
             }
         }
         catch(NumberFormatException e) {
-            Log.e("Conversion Error", "Error converting day (don't worry)");
+            // Do nothing
         }
     }
 

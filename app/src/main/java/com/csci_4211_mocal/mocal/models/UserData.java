@@ -7,11 +7,13 @@ import java.util.ArrayList;
 
 public class UserData {
     private String token;
+    private AccountInfo accountInfo;
     private ArrayList<Event> events;
 
     public UserData(String token, ArrayList<Event> events) {
         this.token = token;
         this.events = events;
+        this.accountInfo = null;
     }
 
     public String getToken() {
@@ -20,6 +22,14 @@ public class UserData {
 
     public ArrayList<Event> getEvents() {
         return events;
+    }
+
+    public AccountInfo getAccountInfo() {
+        return accountInfo;
+    }
+
+    public void setAccountInfo(AccountInfo info) {
+        this.accountInfo = info;
     }
 
     public void setToken(String token) {
