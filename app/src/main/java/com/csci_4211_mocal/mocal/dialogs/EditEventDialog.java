@@ -77,10 +77,10 @@ public class EditEventDialog extends DialogFragment {
                         listener.confirmDeleteEvent(event);
                     }
                 })
-                .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                .setNegativeButton("Share", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
-                        dismiss();
+                        listener.confirmShareEvent(event);
                     }
                 });
 
@@ -121,5 +121,6 @@ public class EditEventDialog extends DialogFragment {
     public interface EditEventDialogListener {
         void confirmEditEvent(Event event);
         void confirmDeleteEvent(Event event);
+        void confirmShareEvent(Event event);
     }
 }

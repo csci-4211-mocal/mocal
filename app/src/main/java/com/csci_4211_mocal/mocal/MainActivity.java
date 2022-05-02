@@ -139,6 +139,7 @@ public class MainActivity extends AppCompatActivity implements
             intent.putExtra("selected_day", Integer.parseInt(day));
             intent.putExtra("selected_month", selectedDate.getMonthValue());
             intent.putExtra("selected_year", selectedDate.getYear());
+            intent.putExtra("token", userData.getToken());
             intent.putExtra("events", userData.getEvents());
             startActivity(intent);
         }
@@ -232,7 +233,7 @@ public class MainActivity extends AppCompatActivity implements
                     AccountInfo info = new AccountInfo(accountId, username, password);
                     newUser.setAccountInfo(info);
                     dataManager.update(newUser);
-                    textViewGreeting.setText("Good afternoon,");
+                    textViewGreeting.setText(Conversion.getGreeting());
                     textViewUsername.setText(username);
                 }
                 catch (JSONException e) {
@@ -252,7 +253,6 @@ public class MainActivity extends AppCompatActivity implements
             else {
                 try {
                     JSONObject jsonObject = new JSONObject(res);
-                    System.out.println(res);
                     String token = jsonObject.getString("token");
                     JSONObject accountInfo = jsonObject.getJSONObject("info");
                     String accountId = accountInfo.getString("id");
@@ -262,7 +262,7 @@ public class MainActivity extends AppCompatActivity implements
                     userData.setAccountInfo(info);
                     userData.setToken(token);
                     dataManager.update(userData);
-                    textViewGreeting.setText("Good afternoon,");
+                    textViewGreeting.setText(Conversion.getGreeting());
                     textViewUsername.setText(username);
                 }
                 catch(JSONException e) {

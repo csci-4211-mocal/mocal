@@ -10,7 +10,7 @@ import com.csci_4211_mocal.mocal.R;
 import com.csci_4211_mocal.mocal.adapters.EventListAdapter;
 import com.csci_4211_mocal.mocal.models.Event;
 
-public class EventCell extends RecyclerView.ViewHolder implements View.OnClickListener {
+public class EventCell extends RecyclerView.ViewHolder implements View.OnClickListener, View.OnLongClickListener {
     private final EventListAdapter.ItemListener listener;
     public final TextView textViewTitle;
     public final TextView textViewDescription;
@@ -29,5 +29,11 @@ public class EventCell extends RecyclerView.ViewHolder implements View.OnClickLi
     @Override
     public void onClick(View view) {
         listener.itemClicked(getAdapterPosition(), event);
+    }
+
+    @Override
+    public boolean onLongClick(View view) {
+        listener.itemLongClicked(getAdapterPosition(), event);
+        return true;
     }
 }

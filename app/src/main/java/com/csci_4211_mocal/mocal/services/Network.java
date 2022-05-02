@@ -13,6 +13,8 @@ import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.csci_4211_mocal.mocal.R;
 import com.csci_4211_mocal.mocal.models.AccountInfo;
+import com.csci_4211_mocal.mocal.models.Event;
+import com.google.gson.Gson;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -137,6 +139,55 @@ public class Network {
         requestQueue.add(stringRequest);
     }
 
+    public void shareEvent(String token, String username, Event event, ShareCallback callback) throws JSONException {
+        String endpoint = context.getString(R.string.api_url);
+        String params = "/events/new";
+
+        Gson gson = new Gson();
+        String payload = gson.toJson(event);
+
+        JSONObject jsonObject = new JSONObject();
+        jsonObject.put("token", token);
+        jsonObject.put("to_account", username);
+        jsonObject.put("payload", payload);
+        final String requestBody = jsonObject.toString();
+
+        RequestQueue requestQueue = Volley.newRequestQueue(context);
+        StringRequest stringRequest = new StringRequest(
+                Request.Method.POST,
+                endpoint + params,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        callback.onShareResponse(null, response);
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        callback.onShareResponse(error, null);
+                    }
+                }
+        ) {
+            @Override
+            public String getBodyContentType() {
+                return "application/json; charset=utf-8";
+            }
+
+            @Override
+            public byte[] getBody() throws AuthFailureError {
+                try {
+                    return requestBody == null ? null : requestBody.getBytes("utf-8");
+                } catch (UnsupportedEncodingException uee) {
+                    VolleyLog.wtf("Unsupported Encoding while trying to get the bytes of %s using %s", requestBody, "utf-8");
+                    return null;
+                }
+            }
+        };
+
+        requestQueue.add(stringRequest);
+    }
+
     public void getWeather (double lat, double lon, WeatherCallback callback) {
         String endpoint = context.getString(R.string.weather_api_url);
         String params = "?lat=" + lat + "&lon=" + lon + "&apikey=" + context.getString(R.string.weather_api_token);
@@ -175,6 +226,10 @@ public class Network {
 
     public interface WeatherCallback {
         void onWeatherResponse(VolleyError error, String res);
+    }
+
+    public interface ShareCallback {
+        void onShareResponse(VolleyError error, String res);
     }
 
     public Network(Context context) {

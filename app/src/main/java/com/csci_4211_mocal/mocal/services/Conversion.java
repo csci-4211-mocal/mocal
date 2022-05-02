@@ -89,8 +89,20 @@ public class Conversion {
         return filtered;
     }
 
-//    public static AccountInfo parseLoginResponse(String response) throws JSONException {
-//        JSONObject jsonObject = new JSONObject(response);
-//
-//    }
+    public static String getGreeting() {
+        Date date = new Date();
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(date);
+        int hour = calendar.get(Calendar.HOUR_OF_DAY);
+
+        if (hour < 12) {
+            return "Good morning,";
+        }
+        else if (hour < 18) {
+            return "Good afternoon,";
+        }
+        else {
+            return "Good evening,";
+        }
+    }
 }

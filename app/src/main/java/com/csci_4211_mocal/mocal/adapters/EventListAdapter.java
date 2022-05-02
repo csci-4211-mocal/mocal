@@ -58,5 +58,6 @@ public class EventListAdapter extends RecyclerView.Adapter<EventCell> {
 
     public interface ItemListener {
         void itemClicked(int position, Event event);
+        void itemLongClicked(int position, Event event);
     }
 }

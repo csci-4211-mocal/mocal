@@ -8,8 +8,7 @@
         android:id="@+id/textViewError"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textColor="#AA0000"
-        android:layout_alignParentStart="true"/>
+        android:textColor="#AA0000"/>
 
     <EditText
         android:id="@+id/editTextTitle"
