@@ -6,6 +6,7 @@ import android.location.Location;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AlertDialog;
@@ -16,6 +17,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.android.volley.VolleyError;
 import com.csci_4211_mocal.mocal.adapters.CalendarAdapter;
 import com.csci_4211_mocal.mocal.dialogs.LoginDialog;
+import com.csci_4211_mocal.mocal.dialogs.MenuDialog;
 import com.csci_4211_mocal.mocal.dialogs.NewEventDialog;
 import com.csci_4211_mocal.mocal.models.AccountInfo;
 import com.csci_4211_mocal.mocal.models.Event;
@@ -24,7 +26,10 @@ import com.csci_4211_mocal.mocal.services.Conversion;
 import com.csci_4211_mocal.mocal.services.DataManager;
 import com.csci_4211_mocal.mocal.services.GPS;
 import com.csci_4211_mocal.mocal.services.Network;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.gson.Gson;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -36,6 +41,7 @@ import java.util.Calendar;
 import java.util.Date;
 
 public class MainActivity extends AppCompatActivity implements
+        MenuDialog.MenuListener,
         CalendarAdapter.ItemListener,
         LoginDialog.LoginDialogListener {
 
@@ -45,6 +51,7 @@ public class MainActivity extends AppCompatActivity implements
     private TextView textViewMonthYear;
     private TextView textViewGreeting;
     private TextView textViewUsername;
+    private FloatingActionButton buttonMenu;
     private RecyclerView recyclerViewCalender;
     private LocalDate selectedDate;
     private ArrayList<String> forecasts;
@@ -60,11 +67,21 @@ public class MainActivity extends AppCompatActivity implements
         textViewMonthYear = findViewById(R.id.textViewMonthYear);
         textViewGreeting = findViewById(R.id.textViewGreeting);
         textViewUsername = findViewById(R.id.textViewUsername);
+        buttonMenu = findViewById(R.id.buttonMenu);
         forecasts = new ArrayList<>();
         selectedDate = LocalDate.now();
         dataManager = new DataManager(this);
         network = new Network(this);
         userData = dataManager.load();
+
+        if (userData != null) {
+            textViewGreeting.setText(Conversion.getGreeting());
+            if (userData.getAccountInfo() != null) {
+                if (userData.getAccountInfo().getUsername() != null) {
+                    textViewUsername.setText(userData.getAccountInfo().getUsername());
+                }
+            }
+        }
 
 //        Wipe account
 //        userData = null;
@@ -85,6 +102,14 @@ public class MainActivity extends AppCompatActivity implements
         if (location != null) {
             network.getWeather(location.getLatitude(), location.getLongitude(), weatherCallback);
         }
+
+        buttonMenu.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                MenuDialog dialog = new MenuDialog(MainActivity.this);
+                dialog.show(getSupportFragmentManager(), "");
+            }
+        });
     }
 
     public void previousMonthClicked(View view) {
@@ -159,6 +184,29 @@ public class MainActivity extends AppCompatActivity implements
                 // Do nothing
             }
         }
+    }
+
+    @Override
+    public void receivedPressed() {
+        if (userData != null) {
+            try {
+                network.getReceivedEvents(userData.getToken(), receivedEventsCallback);
+            }
+            catch (JSONException e) {
+                // Do nothing
+            }
+        }
+    }
+
+    @Override
+    public void logoutPressed() {
+        userData = null;
+        dataManager.update(userData);
+        textViewGreeting.setText("");
+        textViewUsername.setText("");
+        layoutMonth();
+        LoginDialog loginDialog = new LoginDialog(false, null);
+        loginDialog.show(getSupportFragmentManager(), "");
     }
 
     Network.HealthCallback healthCallback = new Network.HealthCallback() {
@@ -268,6 +316,53 @@ public class MainActivity extends AppCompatActivity implements
                 catch(JSONException e) {
                     // Do nothing
                 }
+            }
+        }
+    };
+
+    Network.ReceivedEventsCallback receivedEventsCallback = new Network.ReceivedEventsCallback() {
+        @Override
+        public void onReceivedEventsResponse(VolleyError error, String res) {
+            if (error != null) {
+                // Alert
+            }
+            else {
+                ArrayList<Event> sharedEvents = new ArrayList<>();
+                try {
+                    JSONObject data = new JSONObject(res);
+                    JSONArray foundEvents = data.getJSONArray("events");
+                    for (int i = 0; i < foundEvents.length(); i++) {
+                        String eventString = foundEvents.getString(i);
+                        JSONObject foundSharedEvent = new JSONObject(eventString);
+                        String foundEventData = foundSharedEvent.getString("data");
+
+                        Gson gson = new Gson();
+                        Event foundEvent = gson.fromJson(foundEventData, Event.class);
+                        sharedEvents.add(foundEvent);
+                    }
+                }
+                catch (JSONException e) {
+                    // Do nothing
+                }
+
+                if (userData != null) {
+                    Intent intent = new Intent(MainActivity.this, SharedEventListActivity.class);
+                    intent.putExtra("shared_events", sharedEvents);
+                    intent.putExtra("events", userData.getEvents());
+                    startActivity(intent);
+                }
+            }
+        }
+    };
+
+    Network.DeleteEventCallback deleteEventCallback = new Network.DeleteEventCallback() {
+        @Override
+        public void onDeletedResponse(VolleyError error, String res) {
+            if (error != null) {
+                // Alert
+            }
+            else {
+                // Remove event from list
             }
         }
     };

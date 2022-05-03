@@ -188,6 +188,94 @@ public class Network {
         requestQueue.add(stringRequest);
     }
 
+    public void getReceivedEvents(String token, ReceivedEventsCallback callback) throws JSONException {
+        String endpoint = context.getString(R.string.api_url);
+        String params = "/events/all";
+
+        JSONObject jsonObject = new JSONObject();
+        jsonObject.put("token", token);
+        final String requestBody = jsonObject.toString();
+
+        RequestQueue requestQueue = Volley.newRequestQueue(context);
+        StringRequest stringRequest = new StringRequest(
+                Request.Method.POST,
+                endpoint + params,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        callback.onReceivedEventsResponse(null, response);
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        callback.onReceivedEventsResponse(error, null);
+                    }
+                }
+        ) {
+            @Override
+            public String getBodyContentType() {
+                return "application/json; charset=utf-8";
+            }
+
+            @Override
+            public byte[] getBody() throws AuthFailureError {
+                try {
+                    return requestBody == null ? null : requestBody.getBytes("utf-8");
+                } catch (UnsupportedEncodingException uee) {
+                    VolleyLog.wtf("Unsupported Encoding while trying to get the bytes of %s using %s", requestBody, "utf-8");
+                    return null;
+                }
+            }
+        };
+
+        requestQueue.add(stringRequest);
+    }
+
+    public void deleteEvent(String token, String eventId, DeleteEventCallback callback) throws JSONException {
+        String endpoint = context.getString(R.string.api_url);
+        String params = "/events/delete";
+
+        JSONObject jsonObject = new JSONObject();
+        jsonObject.put("token", token);
+        final String requestBody = jsonObject.toString();
+
+        RequestQueue requestQueue = Volley.newRequestQueue(context);
+        StringRequest stringRequest = new StringRequest(
+                Request.Method.POST,
+                endpoint + params,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        callback.onDeletedResponse(null, response);
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        callback.onDeletedResponse(error, null);
+                    }
+                }
+        ) {
+            @Override
+            public String getBodyContentType() {
+                return "application/json; charset=utf-8";
+            }
+
+            @Override
+            public byte[] getBody() throws AuthFailureError {
+                try {
+                    return requestBody == null ? null : requestBody.getBytes("utf-8");
+                } catch (UnsupportedEncodingException uee) {
+                    VolleyLog.wtf("Unsupported Encoding while trying to get the bytes of %s using %s", requestBody, "utf-8");
+                    return null;
+                }
+            }
+        };
+
+        requestQueue.add(stringRequest);
+    }
+
     public void getWeather (double lat, double lon, WeatherCallback callback) {
         String endpoint = context.getString(R.string.weather_api_url);
         String params = "?lat=" + lat + "&lon=" + lon + "&apikey=" + context.getString(R.string.weather_api_token);
@@ -230,6 +318,14 @@ public class Network {
 
     public interface ShareCallback {
         void onShareResponse(VolleyError error, String res);
+    }
+
+    public interface ReceivedEventsCallback {
+        void onReceivedEventsResponse(VolleyError error, String res);
+    }
+
+    public interface DeleteEventCallback {
+        void onDeletedResponse(VolleyError error, String res);
     }
 
     public Network(Context context) {

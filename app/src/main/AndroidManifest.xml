@@ -18,6 +18,9 @@
             android:name=".EventListActivity"
             android:exported="false" />
         <activity
+            android:name=".SharedEventListActivity"
+            android:exported="false" />
+        <activity
             android:name=".MainActivity"
             android:exported="true">
             <intent-filter>

@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="16dp">
+
+    <Button
+        android:id="@+id/buttonReceived"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Shared with me"
+        android:fontFamily="@font/advent_pro"
+        android:background="@color/gray"
+        android:textSize="24dp"
+        android:layout_marginBottom="8dp"/>
+
+    <Button
+        android:id="@+id/buttonLogout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Logout"
+        android:fontFamily="@font/advent_pro"
+        android:background="#BB6666"
+        android:textColor="@color/white"
+        android:textSize="24dp"
+        android:layout_below="@id/buttonReceived"/>
+
+</RelativeLayout>
