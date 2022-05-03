@@ -7,13 +7,18 @@ import java.util.Date;
 import java.util.UUID;
 
 public class Event implements Parcelable {
-    private final String id;
+    private String id;
     private String title;
     private String description;
     private Date timestamp;
 
-    public Event(String title, String description, Date timestamp) {
-        id = UUID.randomUUID().toString();
+    public Event(String id, String title, String description, Date timestamp) {
+        if (id == null) {
+            this.id = UUID.randomUUID().toString();
+        }
+        else {
+            this.id = id;
+        }
         this.title = title;
         this.description = description;
         this.timestamp = timestamp;

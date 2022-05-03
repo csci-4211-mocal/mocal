@@ -334,11 +334,18 @@ public class MainActivity extends AppCompatActivity implements
                     for (int i = 0; i < foundEvents.length(); i++) {
                         String eventString = foundEvents.getString(i);
                         JSONObject foundSharedEvent = new JSONObject(eventString);
+                        String sharedEventId = foundSharedEvent.getString("id");
                         String foundEventData = foundSharedEvent.getString("data");
 
                         Gson gson = new Gson();
                         Event foundEvent = gson.fromJson(foundEventData, Event.class);
-                        sharedEvents.add(foundEvent);
+                        Event sharedEvent = new Event(
+                                sharedEventId,
+                                foundEvent.getTitle(),
+                                foundEvent.getDescription(),
+                                foundEvent.getTimestamp()
+                        );
+                        sharedEvents.add(sharedEvent);
                     }
                 }
                 catch (JSONException e) {
@@ -347,6 +354,7 @@ public class MainActivity extends AppCompatActivity implements
 
                 if (userData != null) {
                     Intent intent = new Intent(MainActivity.this, SharedEventListActivity.class);
+                    intent.putExtra("token", userData.getToken());
                     intent.putExtra("shared_events", sharedEvents);
                     intent.putExtra("events", userData.getEvents());
                     startActivity(intent);

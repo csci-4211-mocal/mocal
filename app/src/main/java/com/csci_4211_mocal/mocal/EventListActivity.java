@@ -106,7 +106,7 @@ public class EventListActivity extends AppCompatActivity implements
             return;
         }
 
-        Event event = new Event(title, description, timestamp);
+        Event event = new Event(null, title, description, timestamp);
         events.add(event);
 
         layoutList();

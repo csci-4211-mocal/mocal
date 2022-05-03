@@ -2,6 +2,7 @@ package com.csci_4211_mocal.mocal;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -11,11 +12,14 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.android.volley.VolleyError;
 import com.csci_4211_mocal.mocal.adapters.EventListAdapter;
 import com.csci_4211_mocal.mocal.adapters.SharedEventListAdapter;
 import com.csci_4211_mocal.mocal.models.Event;
 import com.csci_4211_mocal.mocal.services.Conversion;
 import com.csci_4211_mocal.mocal.services.Network;
+
+import org.json.JSONException;
 
 import java.util.ArrayList;
 
@@ -64,11 +68,40 @@ public class SharedEventListActivity extends AppCompatActivity implements Shared
 
     @Override
     public void addClicked(Event event) {
-        System.out.println("ADDDDDD" + event.getTitle());
+        events.add(event);
+        removeClicked(event);
     }
 
     @Override
     public void removeClicked(Event event) {
-        System.out.println("DELLLLLL" + event.getTitle());
+        ArrayList<Event> updated = new ArrayList<>();
+        for (Event e : receivedEvents) {
+            if (!e.getId().equals(event.getId())) {
+                updated.add(e);
+            }
+        }
+
+        receivedEvents = updated;
+        layoutList();
+        layoutList();
+
+        try {
+            network.deleteEvent(token, event.getId(), deleteEventCallback);
+        }
+        catch (JSONException e) {
+            // Do nothing
+        }
     }
+
+    Network.DeleteEventCallback deleteEventCallback = new Network.DeleteEventCallback() {
+        @Override
+        public void onDeletedResponse(VolleyError error, String res) {
+            if (error != null) {
+                Log.e("Delete Error", "Failed to delete shared event");
+            }
+            else {
+                Log.i("Deleted", "Shared event successfully deleted");
+            }
+        }
+    };
 }

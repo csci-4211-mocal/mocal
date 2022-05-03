@@ -237,7 +237,10 @@ public class Network {
         String params = "/events/delete";
 
         JSONObject jsonObject = new JSONObject();
+        System.out.println(token);
+        System.out.println(eventId);
         jsonObject.put("token", token);
+        jsonObject.put("event_id", eventId);
         final String requestBody = jsonObject.toString();
 
         RequestQueue requestQueue = Volley.newRequestQueue(context);

@@ -36,7 +36,6 @@
                 android:fontFamily="@font/advent_pro"
                 android:text="Timestamp"
                 android:textSize="16dp"
-                android:textAlignment="textEnd"
                 android:paddingRight="4dp"/>
 
         </LinearLayout>
@@ -49,6 +48,7 @@
             android:textColor="@color/white"
             android:background="@color/primary"
             android:layout_weight="1"
+            android:fontFamily="@font/allerta"
             android:layout_marginRight="4dp" />
 
         <Button
@@ -58,7 +58,8 @@
             android:text="Deny"
             android:textColor="@color/white"
             android:background="#BB6666"
-            android:layout_weight="1"/>
+            android:layout_weight="1"
+            android:fontFamily="@font/allerta"/>
 
     </LinearLayout>
 
